@@ -98,6 +98,7 @@ static void pad_refresh(struct lang_screen *screen)
 	getmaxyx(screen->scr.sub_ncw, rows, cols);
 	getbegyx(screen->scr.sub_ncw, y, x);
 
+	touchwin(screen->pad);
 	prefresh(screen->pad, screen->scroll_y, 0, y, x, rows, cols);
 }
 
@@ -183,6 +184,7 @@ static int lang_screen_post(struct nc_scr *scr)
 
 	widgetset_post(screen->widgetset);
 	nc_scr_frame_draw(scr);
+	touchwin(screen->scr.main_ncw);
 	wrefresh(screen->scr.main_ncw);
 	pad_refresh(screen);
 	return 0;
@@ -223,10 +225,13 @@ static void ok_click(void *arg)
 	}
 
 	if (discover_client_authenticated(screen->cui->client)) {
-		if (lang_process_form(screen))
+		if (lang_process_form(screen)){
 			/* errors are written to the status line, so we'll need
 			 * to refresh */
+
+			touchwin(screen->scr.main_ncw);
 			wrefresh(screen->scr.main_ncw);
+		}
 		else
 			screen->exit = true;
 	} else {

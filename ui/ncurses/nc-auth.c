@@ -101,8 +101,10 @@ static void auth_screen_process_key(struct nc_scr *scr, int key)
 
 	if (screen->exit)
 		screen->on_exit(screen->cui);
-	else if (handled)
+	else if (handled){
+		touchwin(screen->scr.sub_ncw);
 		wrefresh(screen->scr.sub_ncw);
+	}
 }
 
 static void auth_screen_frame_draw(struct nc_scr *scr)
@@ -123,6 +125,7 @@ static int auth_screen_post(struct nc_scr *scr)
 	struct auth_screen *screen = auth_screen_from_scr(scr);
 	widgetset_post(screen->widgetset);
 	auth_screen_frame_draw(scr);
+	touchwin(scr->sub_ncw);
 	wrefresh(scr->sub_ncw);
 	return 0;
 }

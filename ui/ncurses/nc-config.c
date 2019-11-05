@@ -150,6 +150,7 @@ static void pad_refresh(struct config_screen *screen)
 	getmaxyx(screen->scr.sub_ncw, rows, cols);
 	getbegyx(screen->scr.sub_ncw, y, x);
 
+	touchwin(screen->pad);
 	prefresh(screen->pad, screen->scroll_y, 0, y, x, rows, cols);
 }
 
@@ -399,10 +400,12 @@ static void ok_click(void *arg)
 	struct config_screen *screen = arg;
 
 	if (discover_client_authenticated(screen->cui->client)) {
-		if (screen_process_form(screen))
+		if (screen_process_form(screen)){
 			/* errors are written to the status line, so we'll need
 			 * to refresh */
+			touchwin(screen->scr.main_ncw);
 			wrefresh(screen->scr.main_ncw);
+		}
 		else
 			screen->exit = true;
 	} else {
@@ -1315,6 +1318,7 @@ static int config_screen_post(struct nc_scr *scr)
 		redrawwin(scr->main_ncw);
 		screen->need_redraw = false;
 	}
+	touchwin(screen->scr.main_ncw);
 	wrefresh(screen->scr.main_ncw);
 	pad_refresh(screen);
 	return 0;

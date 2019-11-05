@@ -111,6 +111,7 @@ void nc_scr_status_printf(struct nc_scr *scr, const char *format, ...)
 	va_end(ap);
 
 	nc_scr_status_draw(scr);
+	touchwin(scr->main_ncw);
 	wrefresh(scr->main_ncw);
 }
 

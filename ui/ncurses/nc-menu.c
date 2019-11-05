@@ -62,6 +62,7 @@ static int pmenu_post(struct nc_scr *scr)
 	result = post_menu(menu->ncm);
 
 	nc_scr_frame_draw(scr);
+	touchwin(menu->scr.main_ncw);
 	wrefresh(menu->scr.main_ncw);
 
 	return result;
@@ -370,6 +371,7 @@ static int pmenu_item_get_index(const struct pmenu_item *item)
 static void pmenu_move_cursor(struct pmenu *menu, int req)
 {
 	menu_driver(menu->ncm, req);
+	touchwin(menu->scr.main_ncw);
 	wrefresh(menu->scr.main_ncw);
 }
 

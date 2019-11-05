@@ -100,6 +100,7 @@ static void pad_refresh(struct boot_editor *boot_editor)
 	getmaxyx(boot_editor->scr.sub_ncw, rows, cols);
 	getbegyx(boot_editor->scr.sub_ncw, y, x);
 
+	touchwin(boot_editor->pad);
 	prefresh(boot_editor->pad, boot_editor->scroll_y, 0,
 			y, x, rows, cols);
 }
@@ -128,6 +129,7 @@ static int boot_editor_post(struct nc_scr *scr)
 		redrawwin(scr->main_ncw);
 		boot_editor->need_redraw = false;
 	}
+	touchwin(boot_editor->scr.main_ncw);
 	wrefresh(boot_editor->scr.main_ncw);
 	pad_refresh(boot_editor);
 	return 0;
@@ -692,6 +694,7 @@ struct boot_editor *boot_editor_init(struct cui *cui,
 	}
 
 	boot_editor_draw(boot_editor, sysinfo);
+	touchwin(boot_editor->scr.main_ncw);
 	wrefresh(boot_editor->scr.main_ncw);
 
 	return boot_editor;

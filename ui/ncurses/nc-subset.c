@@ -86,6 +86,7 @@ static void pad_refresh(struct subset_screen *screen)
 	getmaxyx(screen->scr.sub_ncw, rows, cols);
 	getbegyx(screen->scr.sub_ncw, y, x);
 
+	touchwin(screen->pad);
 	prefresh(screen->pad, screen->scroll_y, 0, y, x, rows, cols);
 }
 

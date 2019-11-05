@@ -107,6 +107,7 @@ static void pad_refresh(struct plugin_screen *screen)
 	getmaxyx(screen->scr.sub_ncw, rows, cols);
 	getbegyx(screen->scr.sub_ncw, y, x);
 
+	touchwin(screen->pad);
 	prefresh(screen->pad, screen->scroll_y, 0, y, x, rows, cols);
 }
 
@@ -179,6 +180,7 @@ static int plugin_screen_post(struct nc_scr *scr)
 		redrawwin(scr->main_ncw);
 		screen->need_redraw = false;
 	}
+	touchwin(screen->scr.main_ncw);
 	wrefresh(screen->scr.main_ncw);
 	pad_refresh(screen);
 

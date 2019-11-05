@@ -53,6 +53,7 @@ void text_screen_draw(struct text_screen *screen)
 		mvwaddnstr(screen->scr.sub_ncw, i, 1, screen->lines[i], len);
 	}
 
+	touchwin(screen->scr.sub_ncw);
 	wrefresh(screen->scr.sub_ncw);
 }
 
@@ -89,6 +90,7 @@ static void text_screen_scroll(struct text_screen *screen, int key)
 		mvwaddnstr(screen->scr.sub_ncw, 0, 1, screen->lines[i], len);
 	}
 
+	touchwin(screen->scr.sub_ncw);
 	wrefresh(screen->scr.sub_ncw);
 }
 
